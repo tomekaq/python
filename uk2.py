@@ -8,14 +8,26 @@ from random import randint
 
 
 
+def toScreen(x,y):
+    return (320 - x,240 - y)
+
+def Draw(x,y,a=0):
+    if (a == 1):
+        (y,x) = toScreen(x+ int(math.floor(-math.sin(t))),y*int(math.floor( t )))
+    (x,y) = toScreen(x+ int(math.floor(-math.sin(t))),y*int(math.floor( t )))
+    
+    if (x>0 and x < 640 and y > 0 and y<480):
+        pixObj[x][y] = Blue
+      #  pixObj[x][y] = Red
+
 pygame.init()
 Fps = 30
 fpsClock = pygame.time.Clock()
 screen = pygame.display.set_mode((640, 480),0,24)
 
 White = (255,255,255)
-Blue = (255,0,0)
-
+Red = (255,0,0)
+Blue = (0,255,255)
 pixObj = pygame.PixelArray(screen)
 
 #del pixObj
@@ -26,12 +38,23 @@ while True:
         if event.type == QUIT:
             exit()
     t += 1
-    x = 200+ int( math.floor( 10*math.sin(0.1*(pow(t,2) + 0.2*pow(t,1)))))
-    y = int(math.floor(  0.0001*(pow(t,3) + 0.5*pow(t,1))))
-    if (x>0 and x < 640 and y > 0 and y<480):
-        pixObj[x][y] = White
-        pixObj[x][y] = Blue
-   
+    (c,v) = toScreen(0,0)
+    pixObj[c][v] = White
+
+
+    for i in range (-320+1,320):
+        (j,k) = toScreen(i,0)
+        pixObj[j][k] = White
+
+    for i in range (-240+1,240):
+        (j,k) = toScreen(0,i)
+        pixObj[j][k] = White
+
+    for i in range(-80,80):
+        Draw(i*10,1)
+        Draw(i*10,-1)
+        Draw(i*10,1,1)
+        Draw(i*10,-1,1)
     if (t > 480):
         t = 0
         del pixObj
